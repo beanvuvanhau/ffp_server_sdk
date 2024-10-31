@@ -1,0 +1,15 @@
+
+
+# RolloutType
+
+## Enum
+
+
+* `UNKNOWN_ROLLOUT_TYPE` (value: `"UNKNOWN_ROLLOUT_TYPE"`)
+
+* `SEGMENT_ROLLOUT_TYPE` (value: `"SEGMENT_ROLLOUT_TYPE"`)
+
+* `THRESHOLD_ROLLOUT_TYPE` (value: `"THRESHOLD_ROLLOUT_TYPE"`)
+
+
+

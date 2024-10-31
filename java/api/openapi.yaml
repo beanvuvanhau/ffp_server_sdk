@@ -1,0 +1,3301 @@
+openapi: 3.0.1
+info:
+  title: api
+  version: 1.46.0
+servers:
+- url: http://localhost:8080
+paths:
+  /evaluate/v1/boolean:
+    post:
+      operationId: EvaluationService.boolean
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EvaluationRequest'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BooleanEvaluationResponse'
+          description: ""
+      security:
+      - BearerAuth: []
+      tags:
+      - EvaluationService
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /evaluate/v1/variant:
+    post:
+      operationId: EvaluationService.variant
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EvaluationRequest'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VariantEvaluationResponse'
+          description: ""
+      security:
+      - BearerAuth: []
+      tags:
+      - EvaluationService
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /evaluate/v1/batch:
+    post:
+      operationId: EvaluationService.batch
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BatchEvaluationRequest'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BatchEvaluationResponse'
+          description: ""
+      security:
+      - BearerAuth: []
+      tags:
+      - EvaluationService
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /auth/v1/method/kubernetes/serviceaccount:
+    post:
+      operationId: AuthMethodK8SService.verifyServiceAccount
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthMethodK8SService_verifyServiceAccount_request'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthenticationToken'
+          description: ""
+      tags:
+      - AuthMethodK8SService
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /auth/v1/method/oidc/{provider}/authorize:
+    get:
+      operationId: AuthMethodOIDCService.authorizeURL
+      parameters:
+      - explode: false
+        in: path
+        name: provider
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: state
+        required: true
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthMethodOIDCAuthorizeURLResponse'
+          description: ""
+      tags:
+      - AuthMethodOIDCService
+      x-accepts:
+      - application/json
+  /auth/v1/method/oidc/{provider}/callback:
+    get:
+      operationId: AuthMethodOIDCService.callback
+      parameters:
+      - explode: false
+        in: path
+        name: provider
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: code
+        required: true
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: state
+        required: true
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthMethodOIDCCallbackResponse'
+          description: ""
+      tags:
+      - AuthMethodOIDCService
+      x-accepts:
+      - application/json
+  /auth/v1/method/token:
+    post:
+      operationId: AuthMethodTokenService.createToken
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthMethodTokenService_createToken_request'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthenticationToken'
+          description: ""
+      security:
+      - BearerAuth: []
+      tags:
+      - AuthMethodTokenService
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /auth/v1/tokens:
+    get:
+      operationId: AuthService.listTokens
+      parameters: []
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthenticationList'
+          description: ""
+      security:
+      - BearerAuth: []
+      tags:
+      - AuthService
+      x-accepts:
+      - application/json
+  /auth/v1/tokens/{id}:
+    delete:
+      operationId: AuthService.deleteToken
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "204":
+          description: ""
+      security:
+      - BearerAuth: []
+      tags:
+      - AuthService
+      x-accepts:
+      - application/json
+    get:
+      operationId: AuthService.getToken
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Authentication'
+          description: ""
+      security:
+      - BearerAuth: []
+      tags:
+      - AuthService
+      x-accepts:
+      - application/json
+  /auth/v1/self:
+    get:
+      operationId: AuthService.getSelf
+      parameters: []
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Authentication'
+          description: ""
+      security:
+      - BearerAuth: []
+      tags:
+      - AuthService
+      x-accepts:
+      - application/json
+  /auth/v1/self/expire:
+    put:
+      operationId: AuthService.expireSelf
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthService_expireSelf_request'
+        required: true
+      responses:
+        "204":
+          description: ""
+      security:
+      - BearerAuth: []
+      tags:
+      - AuthService
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /api/v1/namespaces/{namespaceKey}/segments/{segmentKey}/constraints:
+    post:
+      operationId: ConstraintsService.create
+      parameters:
+      - explode: false
+        in: path
+        name: namespaceKey
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: segmentKey
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConstraintCreateRequest'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Constraint'
+          description: ""
+      security:
+      - BearerAuth: []
+      tags:
+      - ConstraintsService
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /api/v1/namespaces/{namespaceKey}/segments/{segmentKey}/constraints/{id}:
+    delete:
+      operationId: ConstraintsService.delete
+      parameters:
+      - explode: false
+        in: path
+        name: namespaceKey
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: segmentKey
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "204":
+          description: ""
+      security:
+      - BearerAuth: []
+      tags:
+      - ConstraintsService
+      x-accepts:
+      - application/json
+    put:
+      operationId: ConstraintsService.update
+      parameters:
+      - explode: false
+        in: path
+        name: namespaceKey
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: segmentKey
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConstraintUpdateRequest'
+        required: true
+      responses:
+        "204":
+          description: ""
+      security:
+      - BearerAuth: []
+      tags:
+      - ConstraintsService
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /api/v1/namespaces/{namespaceKey}/flags/{flagKey}/rules/{ruleId}/distributions:
+    post:
+      operationId: DistributionsService.create
+      parameters:
+      - explode: false
+        in: path
+        name: namespaceKey
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: flagKey
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: ruleId
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DistributionCreateRequest'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Distribution'
+          description: ""
+      security:
+      - BearerAuth: []
+      tags:
+      - DistributionsService
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /api/v1/namespaces/{namespaceKey}/flags/{flagKey}/rules/{ruleId}/distributions/{id}:
+    delete:
+      operationId: DistributionsService.delete
+      parameters:
+      - explode: false
+        in: path
+        name: namespaceKey
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: flagKey
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: ruleId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: variantId
+        required: true
+        schema:
+          type: string
+        style: form
+      responses:
+        "204":
+          description: ""
+      security:
+      - BearerAuth: []
+      tags:
+      - DistributionsService
+      x-accepts:
+      - application/json
+    put:
+      operationId: DistributionsService.update
+      parameters:
+      - explode: false
+        in: path
+        name: namespaceKey
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: flagKey
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: ruleId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DistributionUpdateRequest'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Distribution'
+          description: ""
+      security:
+      - BearerAuth: []
+      tags:
+      - DistributionsService
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /api/v1/namespaces/{namespaceKey}/evaluate:
+    post:
+      operationId: EvaluateService.evaluate
+      parameters:
+      - explode: false
+        in: path
+        name: namespaceKey
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EvaluationRequest'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EvaluationResponse'
+          description: ""
+      security:
+      - BearerAuth: []
+      tags:
+      - EvaluateService
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /api/v1/namespaces/{namespaceKey}/batch-evaluate:
+    post:
+      operationId: EvaluateService.batchEvaluate
+      parameters:
+      - explode: false
+        in: path
+        name: namespaceKey
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BatchEvaluationRequest'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BatchEvaluationResponse'
+          description: ""
+      security:
+      - BearerAuth: []
+      tags:
+      - EvaluateService
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /api/v1/namespaces/{namespaceKey}/flags:
+    get:
+      operationId: FlagsService.list
+      parameters:
+      - explode: false
+        in: path
+        name: namespaceKey
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: offset
+        required: false
+        schema:
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: pageToken
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: reference
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FlagList'
+          description: ""
+      security:
+      - BearerAuth: []
+      tags:
+      - FlagsService
+      x-accepts:
+      - application/json
+    post:
+      operationId: FlagsService.create
+      parameters:
+      - explode: false
+        in: path
+        name: namespaceKey
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FlagCreateRequest'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Flag'
+          description: ""
+      security:
+      - BearerAuth: []
+      tags:
+      - FlagsService
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /api/v1/namespaces/{namespaceKey}/flags/{key}:
+    delete:
+      operationId: FlagsService.delete
+      parameters:
+      - explode: false
+        in: path
+        name: namespaceKey
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: key
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "204":
+          description: ""
+      security:
+      - BearerAuth: []
+      tags:
+      - FlagsService
+      x-accepts:
+      - application/json
+    get:
+      operationId: FlagsService.get
+      parameters:
+      - explode: false
+        in: path
+        name: namespaceKey
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: key
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: reference
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Flag'
+          description: ""
+      security:
+      - BearerAuth: []
+      tags:
+      - FlagsService
+      x-accepts:
+      - application/json
+    put:
+      operationId: FlagsService.update
+      parameters:
+      - explode: false
+        in: path
+        name: namespaceKey
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: key
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FlagUpdateRequest'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Flag'
+          description: ""
+      security:
+      - BearerAuth: []
+      tags:
+      - FlagsService
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /api/v1/namespaces:
+    get:
+      operationId: NamespacesService.list
+      parameters:
+      - explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: offset
+        required: false
+        schema:
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: pageToken
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: reference
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NamespaceList'
+          description: ""
+      security:
+      - BearerAuth: []
+      tags:
+      - NamespacesService
+      x-accepts:
+      - application/json
+    post:
+      operationId: NamespacesService.create
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NamespaceCreateRequest'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Namespace'
+          description: ""
+      security:
+      - BearerAuth: []
+      tags:
+      - NamespacesService
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /api/v1/namespaces/{key}:
+    delete:
+      operationId: NamespacesService.delete
+      parameters:
+      - explode: false
+        in: path
+        name: key
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "204":
+          description: ""
+      security:
+      - BearerAuth: []
+      tags:
+      - NamespacesService
+      x-accepts:
+      - application/json
+    get:
+      operationId: NamespacesService.get
+      parameters:
+      - explode: false
+        in: path
+        name: key
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: reference
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Namespace'
+          description: ""
+      security:
+      - BearerAuth: []
+      tags:
+      - NamespacesService
+      x-accepts:
+      - application/json
+    put:
+      operationId: NamespacesService.update
+      parameters:
+      - explode: false
+        in: path
+        name: key
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NamespaceUpdateRequest'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Namespace'
+          description: ""
+      security:
+      - BearerAuth: []
+      tags:
+      - NamespacesService
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /api/v1/namespaces/{namespaceKey}/flags/{flagKey}/rollouts:
+    get:
+      operationId: RolloutsService.list
+      parameters:
+      - explode: false
+        in: path
+        name: namespaceKey
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: flagKey
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: offset
+        required: false
+        schema:
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: pageToken
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: reference
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RolloutList'
+          description: ""
+      security:
+      - BearerAuth: []
+      tags:
+      - RolloutsService
+      x-accepts:
+      - application/json
+    post:
+      operationId: RolloutsService.create
+      parameters:
+      - explode: false
+        in: path
+        name: namespaceKey
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: flagKey
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RolloutCreateRequest'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Rollout'
+          description: ""
+      security:
+      - BearerAuth: []
+      tags:
+      - RolloutsService
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /api/v1/namespaces/{namespaceKey}/flags/{flagKey}/rollouts/order:
+    put:
+      operationId: RolloutsService.order
+      parameters:
+      - explode: false
+        in: path
+        name: namespaceKey
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: flagKey
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RolloutOrderRequest'
+        required: true
+      responses:
+        "204":
+          description: ""
+      security:
+      - BearerAuth: []
+      tags:
+      - RolloutsService
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /api/v1/namespaces/{namespaceKey}/flags/{flagKey}/rollouts/{id}:
+    delete:
+      operationId: RolloutsService.delete
+      parameters:
+      - explode: false
+        in: path
+        name: namespaceKey
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: flagKey
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "204":
+          description: ""
+      security:
+      - BearerAuth: []
+      tags:
+      - RolloutsService
+      x-accepts:
+      - application/json
+    get:
+      operationId: RolloutsService.get
+      parameters:
+      - explode: false
+        in: path
+        name: namespaceKey
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: flagKey
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: reference
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Rollout'
+          description: ""
+      security:
+      - BearerAuth: []
+      tags:
+      - RolloutsService
+      x-accepts:
+      - application/json
+    put:
+      operationId: RolloutsService.update
+      parameters:
+      - explode: false
+        in: path
+        name: namespaceKey
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: flagKey
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RolloutUpdateRequest'
+        required: true
+      responses:
+        "204":
+          description: ""
+      security:
+      - BearerAuth: []
+      tags:
+      - RolloutsService
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /api/v1/namespaces/{namespaceKey}/flags/{flagKey}/rules:
+    get:
+      operationId: RulesService.list
+      parameters:
+      - explode: false
+        in: path
+        name: namespaceKey
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: flagKey
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: offset
+        required: false
+        schema:
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: pageToken
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: reference
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RuleList'
+          description: ""
+      security:
+      - BearerAuth: []
+      tags:
+      - RulesService
+      x-accepts:
+      - application/json
+    post:
+      operationId: RulesService.create
+      parameters:
+      - explode: false
+        in: path
+        name: namespaceKey
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: flagKey
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RuleCreateRequest'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Rule'
+          description: ""
+      security:
+      - BearerAuth: []
+      tags:
+      - RulesService
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /api/v1/namespaces/{namespaceKey}/flags/{flagKey}/rules/order:
+    put:
+      operationId: RulesService.order
+      parameters:
+      - explode: false
+        in: path
+        name: namespaceKey
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: flagKey
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RuleOrderRequest'
+        required: true
+      responses:
+        "204":
+          description: ""
+      security:
+      - BearerAuth: []
+      tags:
+      - RulesService
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /api/v1/namespaces/{namespaceKey}/flags/{flagKey}/rules/{id}:
+    delete:
+      operationId: RulesService.delete
+      parameters:
+      - explode: false
+        in: path
+        name: namespaceKey
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: flagKey
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "204":
+          description: ""
+      security:
+      - BearerAuth: []
+      tags:
+      - RulesService
+      x-accepts:
+      - application/json
+    get:
+      operationId: RulesService.get
+      parameters:
+      - explode: false
+        in: path
+        name: namespaceKey
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: flagKey
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: reference
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Rule'
+          description: ""
+      security:
+      - BearerAuth: []
+      tags:
+      - RulesService
+      x-accepts:
+      - application/json
+    put:
+      operationId: RulesService.update
+      parameters:
+      - explode: false
+        in: path
+        name: namespaceKey
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: flagKey
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RuleUpdateRequest'
+        required: true
+      responses:
+        "204":
+          description: ""
+      security:
+      - BearerAuth: []
+      tags:
+      - RulesService
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /api/v1/namespaces/{namespaceKey}/segments:
+    get:
+      operationId: SegmentsService.list
+      parameters:
+      - explode: false
+        in: path
+        name: namespaceKey
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: offset
+        required: false
+        schema:
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: pageToken
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: reference
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SegmentList'
+          description: ""
+      security:
+      - BearerAuth: []
+      tags:
+      - SegmentsService
+      x-accepts:
+      - application/json
+    post:
+      operationId: SegmentsService.create
+      parameters:
+      - explode: false
+        in: path
+        name: namespaceKey
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SegmentCreateRequest'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Segment'
+          description: ""
+      security:
+      - BearerAuth: []
+      tags:
+      - SegmentsService
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /api/v1/namespaces/{namespaceKey}/segments/{key}:
+    delete:
+      operationId: SegmentsService.delete
+      parameters:
+      - explode: false
+        in: path
+        name: namespaceKey
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: key
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "204":
+          description: ""
+      security:
+      - BearerAuth: []
+      tags:
+      - SegmentsService
+      x-accepts:
+      - application/json
+    get:
+      operationId: SegmentsService.get
+      parameters:
+      - explode: false
+        in: path
+        name: namespaceKey
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: key
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: reference
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Segment'
+          description: ""
+      security:
+      - BearerAuth: []
+      tags:
+      - SegmentsService
+      x-accepts:
+      - application/json
+    put:
+      operationId: SegmentsService.update
+      parameters:
+      - explode: false
+        in: path
+        name: namespaceKey
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: key
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SegmentUpdateRequest'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Segment'
+          description: ""
+      security:
+      - BearerAuth: []
+      tags:
+      - SegmentsService
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /api/v1/namespaces/{namespaceKey}/flags/{flagKey}/variants:
+    post:
+      operationId: VariantsService.create
+      parameters:
+      - explode: false
+        in: path
+        name: namespaceKey
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: flagKey
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VariantCreateRequest'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Variant'
+          description: ""
+      security:
+      - BearerAuth: []
+      tags:
+      - VariantsService
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /api/v1/namespaces/{namespaceKey}/flags/{flagKey}/variants/{id}:
+    delete:
+      operationId: VariantsService.delete
+      parameters:
+      - explode: false
+        in: path
+        name: namespaceKey
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: flagKey
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "204":
+          description: ""
+      security:
+      - BearerAuth: []
+      tags:
+      - VariantsService
+      x-accepts:
+      - application/json
+    put:
+      operationId: VariantsService.update
+      parameters:
+      - explode: false
+        in: path
+        name: namespaceKey
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: flagKey
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VariantUpdateRequest'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Variant'
+          description: ""
+      security:
+      - BearerAuth: []
+      tags:
+      - VariantsService
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+components:
+  schemas:
+    EvaluationRequest:
+      example:
+        reference: reference
+        requestId: requestId
+        context:
+          key: context
+        entityId: entityId
+        flagKey: flagKey
+        namespaceKey: namespaceKey
+      properties:
+        requestId:
+          type: string
+        namespaceKey:
+          type: string
+        flagKey:
+          type: string
+        entityId:
+          type: string
+        context:
+          additionalProperties:
+            type: string
+          type: object
+        reference:
+          type: string
+      required:
+      - context
+      - entityId
+      - flagKey
+      - namespaceKey
+      type: object
+    EvaluationResponseType:
+      enum:
+      - VARIANT_EVALUATION_RESPONSE_TYPE
+      - BOOLEAN_EVALUATION_RESPONSE_TYPE
+      - ERROR_EVALUATION_RESPONSE_TYPE
+      type: string
+    EvaluationResponse:
+      example:
+        variantResponse:
+          reason: UNKNOWN_EVALUATION_REASON
+          requestId: requestId
+          match: true
+          segmentKeys:
+          - segmentKeys
+          - segmentKeys
+          variantAttachment: variantAttachment
+          variantKey: variantKey
+          flagKey: flagKey
+          timestamp: 2000-01-23T04:56:07.000+00:00
+          requestDurationMillis: 0.8008281904610115
+        booleanResponse:
+          reason: UNKNOWN_EVALUATION_REASON
+          requestId: requestId
+          flagKey: flagKey
+          enabled: true
+          timestamp: 2000-01-23T04:56:07.000+00:00
+          requestDurationMillis: 0.8008281904610115
+        type: VARIANT_EVALUATION_RESPONSE_TYPE
+        errorResponse:
+          reason: UNKNOWN_ERROR_EVALUATION_REASON
+          flagKey: flagKey
+          namespaceKey: namespaceKey
+      properties:
+        type:
+          $ref: '#/components/schemas/EvaluationResponseType'
+        booleanResponse:
+          $ref: '#/components/schemas/BooleanEvaluationResponse'
+        variantResponse:
+          $ref: '#/components/schemas/VariantEvaluationResponse'
+        errorResponse:
+          $ref: '#/components/schemas/ErrorEvaluationResponse'
+      required:
+      - type
+      type: object
+    ErrorEvaluationResponse:
+      example:
+        reason: UNKNOWN_ERROR_EVALUATION_REASON
+        flagKey: flagKey
+        namespaceKey: namespaceKey
+      properties:
+        flagKey:
+          type: string
+        namespaceKey:
+          type: string
+        reason:
+          $ref: '#/components/schemas/ErrorEvaluationReason'
+      required:
+      - flagKey
+      - namespaceKey
+      - reason
+      type: object
+    BooleanEvaluationResponse:
+      example:
+        reason: UNKNOWN_EVALUATION_REASON
+        requestId: requestId
+        flagKey: flagKey
+        enabled: true
+        timestamp: 2000-01-23T04:56:07.000+00:00
+        requestDurationMillis: 0.8008281904610115
+      properties:
+        requestId:
+          type: string
+        flagKey:
+          type: string
+        enabled:
+          type: boolean
+        timestamp:
+          format: date-time
+          type: string
+        requestDurationMillis:
+          format: double
+          type: number
+        reason:
+          $ref: '#/components/schemas/EvaluationReason'
+      required:
+      - enabled
+      - flagKey
+      - reason
+      - requestDurationMillis
+      - requestId
+      - timestamp
+      type: object
+    VariantEvaluationResponse:
+      example:
+        reason: UNKNOWN_EVALUATION_REASON
+        requestId: requestId
+        match: true
+        segmentKeys:
+        - segmentKeys
+        - segmentKeys
+        variantAttachment: variantAttachment
+        variantKey: variantKey
+        flagKey: flagKey
+        timestamp: 2000-01-23T04:56:07.000+00:00
+        requestDurationMillis: 0.8008281904610115
+      properties:
+        requestId:
+          type: string
+        match:
+          type: boolean
+        flagKey:
+          type: string
+        segmentKeys:
+          items:
+            type: string
+          type: array
+        variantKey:
+          type: string
+        variantAttachment:
+          type: string
+        timestamp:
+          format: date-time
+          type: string
+        requestDurationMillis:
+          format: double
+          type: number
+        reason:
+          $ref: '#/components/schemas/EvaluationReason'
+      required:
+      - flagKey
+      - match
+      - reason
+      - requestDurationMillis
+      - requestId
+      - segmentKeys
+      - timestamp
+      - variantAttachment
+      - variantKey
+      type: object
+    EvaluationReason:
+      enum:
+      - UNKNOWN_EVALUATION_REASON
+      - FLAG_DISABLED_EVALUATION_REASON
+      - MATCH_EVALUATION_REASON
+      - DEFAULT_EVALUATION_REASON
+      type: string
+    ErrorEvaluationReason:
+      enum:
+      - UNKNOWN_ERROR_EVALUATION_REASON
+      - NOT_FOUND_ERROR_EVALUATION_REASON
+      type: string
+    BatchEvaluationRequest:
+      example:
+        reference: reference
+        requestId: requestId
+        requests:
+        - reference: reference
+          requestId: requestId
+          context:
+            key: context
+          entityId: entityId
+          flagKey: flagKey
+          namespaceKey: namespaceKey
+        - reference: reference
+          requestId: requestId
+          context:
+            key: context
+          entityId: entityId
+          flagKey: flagKey
+          namespaceKey: namespaceKey
+      properties:
+        requestId:
+          type: string
+        requests:
+          items:
+            $ref: '#/components/schemas/EvaluationRequest'
+          type: array
+        reference:
+          type: string
+      required:
+      - requests
+      type: object
+    BatchEvaluationResponse:
+      example:
+        requestId: requestId
+        responses:
+        - variantResponse:
+            reason: UNKNOWN_EVALUATION_REASON
+            requestId: requestId
+            match: true
+            segmentKeys:
+            - segmentKeys
+            - segmentKeys
+            variantAttachment: variantAttachment
+            variantKey: variantKey
+            flagKey: flagKey
+            timestamp: 2000-01-23T04:56:07.000+00:00
+            requestDurationMillis: 0.8008281904610115
+          booleanResponse:
+            reason: UNKNOWN_EVALUATION_REASON
+            requestId: requestId
+            flagKey: flagKey
+            enabled: true
+            timestamp: 2000-01-23T04:56:07.000+00:00
+            requestDurationMillis: 0.8008281904610115
+          type: VARIANT_EVALUATION_RESPONSE_TYPE
+          errorResponse:
+            reason: UNKNOWN_ERROR_EVALUATION_REASON
+            flagKey: flagKey
+            namespaceKey: namespaceKey
+        - variantResponse:
+            reason: UNKNOWN_EVALUATION_REASON
+            requestId: requestId
+            match: true
+            segmentKeys:
+            - segmentKeys
+            - segmentKeys
+            variantAttachment: variantAttachment
+            variantKey: variantKey
+            flagKey: flagKey
+            timestamp: 2000-01-23T04:56:07.000+00:00
+            requestDurationMillis: 0.8008281904610115
+          booleanResponse:
+            reason: UNKNOWN_EVALUATION_REASON
+            requestId: requestId
+            flagKey: flagKey
+            enabled: true
+            timestamp: 2000-01-23T04:56:07.000+00:00
+            requestDurationMillis: 0.8008281904610115
+          type: VARIANT_EVALUATION_RESPONSE_TYPE
+          errorResponse:
+            reason: UNKNOWN_ERROR_EVALUATION_REASON
+            flagKey: flagKey
+            namespaceKey: namespaceKey
+        requestDurationMillis: 0.8008281904610115
+      properties:
+        requestId:
+          type: string
+        responses:
+          items:
+            $ref: '#/components/schemas/EvaluationResponse'
+          type: array
+        requestDurationMillis:
+          format: double
+          type: number
+      required:
+      - requestDurationMillis
+      - requestId
+      - responses
+      type: object
+    AuthMethodOIDCAuthorizeURLResponse:
+      example:
+        authorizeUrl: authorizeUrl
+      properties:
+        authorizeUrl:
+          type: string
+      required:
+      - authorizeUrl
+      type: object
+    AuthMethodOIDCCallbackResponse:
+      example:
+        authentication:
+          createdAt: 2000-01-23T04:56:07.000+00:00
+          metadata:
+            key: metadata
+          method: METHOD_NONE
+          id: id
+          expiresAt: 2000-01-23T04:56:07.000+00:00
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        authentication:
+          $ref: '#/components/schemas/Authentication'
+      required:
+      - authentication
+      type: object
+    AuthenticationMethod:
+      description: The default is METHOD_NONE
+      enum:
+      - METHOD_NONE
+      - METHOD_TOKEN
+      - METHOD_OIDC
+      - METHOD_KUBERNETES
+      - METHOD_JWT
+      type: string
+    Authentication:
+      example:
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        metadata:
+          key: metadata
+        method: METHOD_NONE
+        id: id
+        expiresAt: 2000-01-23T04:56:07.000+00:00
+        updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        id:
+          type: string
+        method:
+          $ref: '#/components/schemas/AuthenticationMethod'
+        createdAt:
+          format: date-time
+          type: string
+        updatedAt:
+          format: date-time
+          type: string
+        expiresAt:
+          format: date-time
+          type: string
+        metadata:
+          additionalProperties:
+            type: string
+          type: object
+      required:
+      - createdAt
+      - id
+      - metadata
+      - method
+      - updatedAt
+      type: object
+    AuthenticationList:
+      example:
+        nextPageToken: nextPageToken
+        authentications:
+        - createdAt: 2000-01-23T04:56:07.000+00:00
+          metadata:
+            key: metadata
+          method: METHOD_NONE
+          id: id
+          expiresAt: 2000-01-23T04:56:07.000+00:00
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+        - createdAt: 2000-01-23T04:56:07.000+00:00
+          metadata:
+            key: metadata
+          method: METHOD_NONE
+          id: id
+          expiresAt: 2000-01-23T04:56:07.000+00:00
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        authentications:
+          items:
+            $ref: '#/components/schemas/Authentication'
+          type: array
+        nextPageToken:
+          type: string
+      required:
+      - authentications
+      - nextPageToken
+      type: object
+    AuthenticationToken:
+      example:
+        clientToken: clientToken
+        authentication:
+          createdAt: 2000-01-23T04:56:07.000+00:00
+          metadata:
+            key: metadata
+          method: METHOD_NONE
+          id: id
+          expiresAt: 2000-01-23T04:56:07.000+00:00
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        clientToken:
+          type: string
+        authentication:
+          $ref: '#/components/schemas/Authentication'
+      required:
+      - authentication
+      - clientToken
+      type: object
+    CommonsPageable:
+      properties:
+        nextPageToken:
+          type: string
+        totalCount:
+          type: integer
+      type: object
+    ConstraintComparisonType:
+      description: The default is UNKNOWN_COMPARISON_TYPE
+      enum:
+      - UNKNOWN_COMPARISON_TYPE
+      - STRING_COMPARISON_TYPE
+      - NUMBER_COMPARISON_TYPE
+      - BOOLEAN_COMPARISON_TYPE
+      - DATETIME_COMPARISON_TYPE
+      type: string
+    Constraint:
+      example:
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        segmentKey: segmentKey
+        property: property
+        description: description
+        id: id
+        type: UNKNOWN_COMPARISON_TYPE
+        value: value
+        operator: operator
+        namespaceKey: namespaceKey
+        updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        id:
+          type: string
+        namespaceKey:
+          type: string
+        segmentKey:
+          type: string
+        type:
+          $ref: '#/components/schemas/ConstraintComparisonType'
+        property:
+          type: string
+        operator:
+          type: string
+        value:
+          type: string
+        description:
+          type: string
+        createdAt:
+          format: date-time
+          type: string
+        updatedAt:
+          format: date-time
+          type: string
+      required:
+      - createdAt
+      - description
+      - id
+      - namespaceKey
+      - operator
+      - property
+      - segmentKey
+      - type
+      - updatedAt
+      - value
+      type: object
+    ConstraintCreateRequest:
+      example:
+        property: property
+        description: description
+        type: UNKNOWN_COMPARISON_TYPE
+        value: value
+        operator: operator
+      properties:
+        type:
+          $ref: '#/components/schemas/ConstraintComparisonType'
+        property:
+          type: string
+        operator:
+          type: string
+        value:
+          type: string
+        description:
+          type: string
+      required:
+      - operator
+      - property
+      - type
+      type: object
+    ConstraintUpdateRequest:
+      example:
+        property: property
+        description: description
+        type: UNKNOWN_COMPARISON_TYPE
+        value: value
+        operator: operator
+      properties:
+        type:
+          $ref: '#/components/schemas/ConstraintComparisonType'
+        property:
+          type: string
+        operator:
+          type: string
+        value:
+          type: string
+        description:
+          type: string
+      required:
+      - operator
+      - property
+      - type
+      type: object
+    Distribution:
+      example:
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        rollout: 0.8008281904610115
+        id: id
+        variantId: variantId
+        ruleId: ruleId
+        updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        id:
+          type: string
+        ruleId:
+          type: string
+        variantId:
+          type: string
+        rollout:
+          format: double
+          type: number
+        createdAt:
+          format: date-time
+          type: string
+        updatedAt:
+          format: date-time
+          type: string
+      required:
+      - createdAt
+      - id
+      - rollout
+      - ruleId
+      - updatedAt
+      - variantId
+      type: object
+    DistributionCreateRequest:
+      example:
+        rollout: 0.8008281904610115
+        variantId: variantId
+      properties:
+        variantId:
+          type: string
+        rollout:
+          format: double
+          type: number
+      required:
+      - rollout
+      - variantId
+      type: object
+    DistributionUpdateRequest:
+      example:
+        rollout: 0.8008281904610115
+        variantId: variantId
+      properties:
+        variantId:
+          type: string
+        rollout:
+          format: double
+          type: number
+      required:
+      - rollout
+      - variantId
+      type: object
+    FlagList:
+      example:
+        nextPageToken: nextPageToken
+        flags:
+        - createdAt: 2000-01-23T04:56:07.000+00:00
+          defaultVariant:
+            createdAt: 2000-01-23T04:56:07.000+00:00
+            attachment: attachment
+            name: name
+            description: description
+            id: id
+            flagKey: flagKey
+            key: key
+            namespaceKey: namespaceKey
+            updatedAt: 2000-01-23T04:56:07.000+00:00
+          name: name
+          description: description
+          variants:
+          - createdAt: 2000-01-23T04:56:07.000+00:00
+            attachment: attachment
+            name: name
+            description: description
+            id: id
+            flagKey: flagKey
+            key: key
+            namespaceKey: namespaceKey
+            updatedAt: 2000-01-23T04:56:07.000+00:00
+          - createdAt: 2000-01-23T04:56:07.000+00:00
+            attachment: attachment
+            name: name
+            description: description
+            id: id
+            flagKey: flagKey
+            key: key
+            namespaceKey: namespaceKey
+            updatedAt: 2000-01-23T04:56:07.000+00:00
+          type: VARIANT_FLAG_TYPE
+          key: key
+          enabled: true
+          namespaceKey: namespaceKey
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+        - createdAt: 2000-01-23T04:56:07.000+00:00
+          defaultVariant:
+            createdAt: 2000-01-23T04:56:07.000+00:00
+            attachment: attachment
+            name: name
+            description: description
+            id: id
+            flagKey: flagKey
+            key: key
+            namespaceKey: namespaceKey
+            updatedAt: 2000-01-23T04:56:07.000+00:00
+          name: name
+          description: description
+          variants:
+          - createdAt: 2000-01-23T04:56:07.000+00:00
+            attachment: attachment
+            name: name
+            description: description
+            id: id
+            flagKey: flagKey
+            key: key
+            namespaceKey: namespaceKey
+            updatedAt: 2000-01-23T04:56:07.000+00:00
+          - createdAt: 2000-01-23T04:56:07.000+00:00
+            attachment: attachment
+            name: name
+            description: description
+            id: id
+            flagKey: flagKey
+            key: key
+            namespaceKey: namespaceKey
+            updatedAt: 2000-01-23T04:56:07.000+00:00
+          type: VARIANT_FLAG_TYPE
+          key: key
+          enabled: true
+          namespaceKey: namespaceKey
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+        totalCount: 0
+      properties:
+        flags:
+          items:
+            $ref: '#/components/schemas/Flag'
+          type: array
+        nextPageToken:
+          type: string
+        totalCount:
+          type: integer
+      required:
+      - flags
+      - nextPageToken
+      - totalCount
+      type: object
+    Flag:
+      example:
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        defaultVariant:
+          createdAt: 2000-01-23T04:56:07.000+00:00
+          attachment: attachment
+          name: name
+          description: description
+          id: id
+          flagKey: flagKey
+          key: key
+          namespaceKey: namespaceKey
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+        name: name
+        description: description
+        variants:
+        - createdAt: 2000-01-23T04:56:07.000+00:00
+          attachment: attachment
+          name: name
+          description: description
+          id: id
+          flagKey: flagKey
+          key: key
+          namespaceKey: namespaceKey
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+        - createdAt: 2000-01-23T04:56:07.000+00:00
+          attachment: attachment
+          name: name
+          description: description
+          id: id
+          flagKey: flagKey
+          key: key
+          namespaceKey: namespaceKey
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+        type: VARIANT_FLAG_TYPE
+        key: key
+        enabled: true
+        namespaceKey: namespaceKey
+        updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        namespaceKey:
+          type: string
+        key:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        enabled:
+          type: boolean
+        createdAt:
+          format: date-time
+          type: string
+        updatedAt:
+          format: date-time
+          type: string
+        variants:
+          items:
+            $ref: '#/components/schemas/Variant'
+          type: array
+        type:
+          $ref: '#/components/schemas/FlagType'
+        defaultVariant:
+          $ref: '#/components/schemas/Variant'
+      required:
+      - createdAt
+      - description
+      - enabled
+      - key
+      - name
+      - namespaceKey
+      - type
+      - updatedAt
+      - variants
+      type: object
+    FlagType:
+      enum:
+      - VARIANT_FLAG_TYPE
+      - BOOLEAN_FLAG_TYPE
+      type: string
+    FlagCreateRequest:
+      example:
+        name: name
+        description: description
+        type: VARIANT_FLAG_TYPE
+        key: key
+        enabled: true
+      properties:
+        key:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        enabled:
+          type: boolean
+        type:
+          $ref: '#/components/schemas/FlagType'
+      required:
+      - key
+      - name
+      - type
+      type: object
+    FlagUpdateRequest:
+      example:
+        defaultVariantId: defaultVariantId
+        name: name
+        description: description
+        enabled: true
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        enabled:
+          type: boolean
+        defaultVariantId:
+          type: string
+      required:
+      - name
+      type: object
+    NamespaceList:
+      example:
+        nextPageToken: nextPageToken
+        totalCount: 0
+        namespaces:
+        - createdAt: 2000-01-23T04:56:07.000+00:00
+          protected: true
+          name: name
+          description: description
+          key: key
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+        - createdAt: 2000-01-23T04:56:07.000+00:00
+          protected: true
+          name: name
+          description: description
+          key: key
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        namespaces:
+          items:
+            $ref: '#/components/schemas/Namespace'
+          type: array
+        nextPageToken:
+          type: string
+        totalCount:
+          type: integer
+      required:
+      - namespaces
+      - nextPageToken
+      - totalCount
+      type: object
+    Namespace:
+      example:
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        protected: true
+        name: name
+        description: description
+        key: key
+        updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        key:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        protected:
+          type: boolean
+        createdAt:
+          format: date-time
+          type: string
+        updatedAt:
+          format: date-time
+          type: string
+      required:
+      - createdAt
+      - description
+      - key
+      - name
+      - protected
+      - updatedAt
+      type: object
+    NamespaceCreateRequest:
+      example:
+        name: name
+        description: description
+        key: key
+      properties:
+        key:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+      required:
+      - key
+      - name
+      type: object
+    NamespaceUpdateRequest:
+      example:
+        name: name
+        description: description
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+      required:
+      - name
+      type: object
+    RolloutList:
+      example:
+        nextPageToken: nextPageToken
+        rollouts:
+        - createdAt: 2000-01-23T04:56:07.000+00:00
+          segment:
+            segmentKey: segmentKey
+            segmentKeys:
+            - segmentKeys
+            - segmentKeys
+            segmentOperator: OR_SEGMENT_OPERATOR
+            value: true
+          rank: 0
+          description: description
+          threshold:
+            percentage: 6.027456183070403
+            value: true
+          id: id
+          type: UNKNOWN_ROLLOUT_TYPE
+          flagKey: flagKey
+          namespaceKey: namespaceKey
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+        - createdAt: 2000-01-23T04:56:07.000+00:00
+          segment:
+            segmentKey: segmentKey
+            segmentKeys:
+            - segmentKeys
+            - segmentKeys
+            segmentOperator: OR_SEGMENT_OPERATOR
+            value: true
+          rank: 0
+          description: description
+          threshold:
+            percentage: 6.027456183070403
+            value: true
+          id: id
+          type: UNKNOWN_ROLLOUT_TYPE
+          flagKey: flagKey
+          namespaceKey: namespaceKey
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+        totalCount: 1
+      properties:
+        rollouts:
+          items:
+            $ref: '#/components/schemas/Rollout'
+          type: array
+        nextPageToken:
+          type: string
+        totalCount:
+          type: integer
+      required:
+      - nextPageToken
+      - rollouts
+      - totalCount
+      type: object
+    Rollout:
+      example:
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        segment:
+          segmentKey: segmentKey
+          segmentKeys:
+          - segmentKeys
+          - segmentKeys
+          segmentOperator: OR_SEGMENT_OPERATOR
+          value: true
+        rank: 0
+        description: description
+        threshold:
+          percentage: 6.027456183070403
+          value: true
+        id: id
+        type: UNKNOWN_ROLLOUT_TYPE
+        flagKey: flagKey
+        namespaceKey: namespaceKey
+        updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        id:
+          type: string
+        namespaceKey:
+          type: string
+        flagKey:
+          type: string
+        type:
+          $ref: '#/components/schemas/RolloutType'
+        rank:
+          type: integer
+        description:
+          type: string
+        createdAt:
+          format: date-time
+          type: string
+        updatedAt:
+          format: date-time
+          type: string
+        segment:
+          $ref: '#/components/schemas/RolloutSegment'
+        threshold:
+          $ref: '#/components/schemas/RolloutThreshold'
+      required:
+      - createdAt
+      - description
+      - flagKey
+      - id
+      - namespaceKey
+      - rank
+      - type
+      - updatedAt
+      type: object
+    RolloutSegmentOperator:
+      enum:
+      - OR_SEGMENT_OPERATOR
+      - AND_SEGMENT_OPERATOR
+      type: string
+    RolloutType:
+      enum:
+      - UNKNOWN_ROLLOUT_TYPE
+      - SEGMENT_ROLLOUT_TYPE
+      - THRESHOLD_ROLLOUT_TYPE
+      type: string
+    RolloutSegment:
+      example:
+        segmentKey: segmentKey
+        segmentKeys:
+        - segmentKeys
+        - segmentKeys
+        segmentOperator: OR_SEGMENT_OPERATOR
+        value: true
+      properties:
+        segmentKey:
+          type: string
+        segmentKeys:
+          items:
+            type: string
+          type: array
+        segmentOperator:
+          $ref: '#/components/schemas/RolloutSegmentOperator'
+        value:
+          type: boolean
+      required:
+      - segmentKey
+      - value
+      type: object
+    RolloutThreshold:
+      example:
+        percentage: 6.027456183070403
+        value: true
+      properties:
+        percentage:
+          format: double
+          type: number
+        value:
+          type: boolean
+      required:
+      - percentage
+      - value
+      type: object
+    RolloutCreateRequest:
+      example:
+        segment:
+          segmentKey: segmentKey
+          segmentKeys:
+          - segmentKeys
+          - segmentKeys
+          segmentOperator: OR_SEGMENT_OPERATOR
+          value: true
+        rank: 0
+        description: description
+        threshold:
+          percentage: 6.027456183070403
+          value: true
+      properties:
+        rank:
+          type: integer
+        description:
+          type: string
+        segment:
+          $ref: '#/components/schemas/RolloutSegment'
+        threshold:
+          $ref: '#/components/schemas/RolloutThreshold'
+      required:
+      - rank
+      type: object
+    RolloutUpdateRequest:
+      example:
+        segment:
+          segmentKey: segmentKey
+          segmentKeys:
+          - segmentKeys
+          - segmentKeys
+          segmentOperator: OR_SEGMENT_OPERATOR
+          value: true
+        description: description
+        threshold:
+          percentage: 6.027456183070403
+          value: true
+      properties:
+        description:
+          type: string
+        segment:
+          $ref: '#/components/schemas/RolloutSegment'
+        threshold:
+          $ref: '#/components/schemas/RolloutThreshold'
+      type: object
+    RolloutOrderRequest:
+      example:
+        rolloutIds:
+        - rolloutIds
+        - rolloutIds
+      properties:
+        rolloutIds:
+          items:
+            type: string
+          type: array
+      required:
+      - rolloutIds
+      type: object
+    RuleList:
+      example:
+        nextPageToken: nextPageToken
+        rules:
+        - createdAt: 2000-01-23T04:56:07.000+00:00
+          segmentKey: segmentKey
+          segmentKeys:
+          - segmentKeys
+          - segmentKeys
+          rank: 0
+          id: id
+          segmentOperator: OR_SEGMENT_OPERATOR
+          flagKey: flagKey
+          distributions:
+          - createdAt: 2000-01-23T04:56:07.000+00:00
+            rollout: 0.8008281904610115
+            id: id
+            variantId: variantId
+            ruleId: ruleId
+            updatedAt: 2000-01-23T04:56:07.000+00:00
+          - createdAt: 2000-01-23T04:56:07.000+00:00
+            rollout: 0.8008281904610115
+            id: id
+            variantId: variantId
+            ruleId: ruleId
+            updatedAt: 2000-01-23T04:56:07.000+00:00
+          namespaceKey: namespaceKey
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+        - createdAt: 2000-01-23T04:56:07.000+00:00
+          segmentKey: segmentKey
+          segmentKeys:
+          - segmentKeys
+          - segmentKeys
+          rank: 0
+          id: id
+          segmentOperator: OR_SEGMENT_OPERATOR
+          flagKey: flagKey
+          distributions:
+          - createdAt: 2000-01-23T04:56:07.000+00:00
+            rollout: 0.8008281904610115
+            id: id
+            variantId: variantId
+            ruleId: ruleId
+            updatedAt: 2000-01-23T04:56:07.000+00:00
+          - createdAt: 2000-01-23T04:56:07.000+00:00
+            rollout: 0.8008281904610115
+            id: id
+            variantId: variantId
+            ruleId: ruleId
+            updatedAt: 2000-01-23T04:56:07.000+00:00
+          namespaceKey: namespaceKey
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+        totalCount: 6
+      properties:
+        rules:
+          items:
+            $ref: '#/components/schemas/Rule'
+          type: array
+        nextPageToken:
+          type: string
+        totalCount:
+          type: integer
+      required:
+      - nextPageToken
+      - rules
+      - totalCount
+      type: object
+    RuleSegmentOperator:
+      enum:
+      - OR_SEGMENT_OPERATOR
+      - AND_SEGMENT_OPERATOR
+      type: string
+    Rule:
+      example:
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        segmentKey: segmentKey
+        segmentKeys:
+        - segmentKeys
+        - segmentKeys
+        rank: 0
+        id: id
+        segmentOperator: OR_SEGMENT_OPERATOR
+        flagKey: flagKey
+        distributions:
+        - createdAt: 2000-01-23T04:56:07.000+00:00
+          rollout: 0.8008281904610115
+          id: id
+          variantId: variantId
+          ruleId: ruleId
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+        - createdAt: 2000-01-23T04:56:07.000+00:00
+          rollout: 0.8008281904610115
+          id: id
+          variantId: variantId
+          ruleId: ruleId
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+        namespaceKey: namespaceKey
+        updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        id:
+          type: string
+        namespaceKey:
+          type: string
+        flagKey:
+          type: string
+        segmentKey:
+          type: string
+        segmentKeys:
+          items:
+            type: string
+          type: array
+        segmentOperator:
+          $ref: '#/components/schemas/RuleSegmentOperator'
+        distributions:
+          items:
+            $ref: '#/components/schemas/Distribution'
+          type: array
+        rank:
+          type: integer
+        createdAt:
+          format: date-time
+          type: string
+        updatedAt:
+          format: date-time
+          type: string
+      required:
+      - createdAt
+      - distributions
+      - flagKey
+      - id
+      - namespaceKey
+      - rank
+      - segmentKey
+      - segmentOperator
+      - updatedAt
+      type: object
+    RuleCreateRequest:
+      example:
+        segmentKey: segmentKey
+        segmentKeys:
+        - segmentKeys
+        - segmentKeys
+        rank: 0
+        segmentOperator: OR_SEGMENT_OPERATOR
+      properties:
+        segmentKey:
+          type: string
+        segmentKeys:
+          items:
+            type: string
+          type: array
+        segmentOperator:
+          $ref: '#/components/schemas/RuleSegmentOperator'
+        rank:
+          type: integer
+      required:
+      - rank
+      - segmentKey
+      type: object
+    RuleOrderRequest:
+      example:
+        ruleIds:
+        - ruleIds
+        - ruleIds
+      properties:
+        ruleIds:
+          items:
+            type: string
+          type: array
+      required:
+      - ruleIds
+      type: object
+    RuleUpdateRequest:
+      example:
+        segmentKey: segmentKey
+        segmentKeys:
+        - segmentKeys
+        - segmentKeys
+        segmentOperator: OR_SEGMENT_OPERATOR
+      properties:
+        segmentKey:
+          type: string
+        segmentKeys:
+          items:
+            type: string
+          type: array
+        segmentOperator:
+          $ref: '#/components/schemas/RuleSegmentOperator'
+      required:
+      - segmentKey
+      type: object
+    SegmentList:
+      example:
+        nextPageToken: nextPageToken
+        totalCount: 0
+        segments:
+        - createdAt: 2000-01-23T04:56:07.000+00:00
+          matchType: ALL_MATCH_TYPE
+          name: name
+          description: description
+          constraints:
+          - createdAt: 2000-01-23T04:56:07.000+00:00
+            segmentKey: segmentKey
+            property: property
+            description: description
+            id: id
+            type: UNKNOWN_COMPARISON_TYPE
+            value: value
+            operator: operator
+            namespaceKey: namespaceKey
+            updatedAt: 2000-01-23T04:56:07.000+00:00
+          - createdAt: 2000-01-23T04:56:07.000+00:00
+            segmentKey: segmentKey
+            property: property
+            description: description
+            id: id
+            type: UNKNOWN_COMPARISON_TYPE
+            value: value
+            operator: operator
+            namespaceKey: namespaceKey
+            updatedAt: 2000-01-23T04:56:07.000+00:00
+          key: key
+          namespaceKey: namespaceKey
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+        - createdAt: 2000-01-23T04:56:07.000+00:00
+          matchType: ALL_MATCH_TYPE
+          name: name
+          description: description
+          constraints:
+          - createdAt: 2000-01-23T04:56:07.000+00:00
+            segmentKey: segmentKey
+            property: property
+            description: description
+            id: id
+            type: UNKNOWN_COMPARISON_TYPE
+            value: value
+            operator: operator
+            namespaceKey: namespaceKey
+            updatedAt: 2000-01-23T04:56:07.000+00:00
+          - createdAt: 2000-01-23T04:56:07.000+00:00
+            segmentKey: segmentKey
+            property: property
+            description: description
+            id: id
+            type: UNKNOWN_COMPARISON_TYPE
+            value: value
+            operator: operator
+            namespaceKey: namespaceKey
+            updatedAt: 2000-01-23T04:56:07.000+00:00
+          key: key
+          namespaceKey: namespaceKey
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        segments:
+          items:
+            $ref: '#/components/schemas/Segment'
+          type: array
+        nextPageToken:
+          type: string
+        totalCount:
+          type: integer
+      required:
+      - nextPageToken
+      - segments
+      - totalCount
+      type: object
+    Segment:
+      example:
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        matchType: ALL_MATCH_TYPE
+        name: name
+        description: description
+        constraints:
+        - createdAt: 2000-01-23T04:56:07.000+00:00
+          segmentKey: segmentKey
+          property: property
+          description: description
+          id: id
+          type: UNKNOWN_COMPARISON_TYPE
+          value: value
+          operator: operator
+          namespaceKey: namespaceKey
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+        - createdAt: 2000-01-23T04:56:07.000+00:00
+          segmentKey: segmentKey
+          property: property
+          description: description
+          id: id
+          type: UNKNOWN_COMPARISON_TYPE
+          value: value
+          operator: operator
+          namespaceKey: namespaceKey
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+        key: key
+        namespaceKey: namespaceKey
+        updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        namespaceKey:
+          type: string
+        key:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        createdAt:
+          format: date-time
+          type: string
+        updatedAt:
+          format: date-time
+          type: string
+        constraints:
+          items:
+            $ref: '#/components/schemas/Constraint'
+          type: array
+        matchType:
+          $ref: '#/components/schemas/SegmentMatchType'
+      required:
+      - constraints
+      - createdAt
+      - description
+      - key
+      - matchType
+      - name
+      - namespaceKey
+      - updatedAt
+      type: object
+    SegmentMatchType:
+      enum:
+      - ALL_MATCH_TYPE
+      - ANY_MATCH_TYPE
+      type: string
+    SegmentCreateRequest:
+      example:
+        matchType: ALL_MATCH_TYPE
+        name: name
+        description: description
+        key: key
+      properties:
+        key:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        matchType:
+          $ref: '#/components/schemas/SegmentMatchType'
+      required:
+      - description
+      - key
+      - matchType
+      - name
+      type: object
+    SegmentUpdateRequest:
+      example:
+        matchType: ALL_MATCH_TYPE
+        name: name
+        description: description
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        matchType:
+          $ref: '#/components/schemas/SegmentMatchType'
+      required:
+      - description
+      - matchType
+      - name
+      type: object
+    Variant:
+      example:
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        attachment: attachment
+        name: name
+        description: description
+        id: id
+        flagKey: flagKey
+        key: key
+        namespaceKey: namespaceKey
+        updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        id:
+          type: string
+        namespaceKey:
+          type: string
+        flagKey:
+          type: string
+        key:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        createdAt:
+          format: date-time
+          type: string
+        updatedAt:
+          format: date-time
+          type: string
+        attachment:
+          type: string
+      required:
+      - attachment
+      - createdAt
+      - description
+      - flagKey
+      - id
+      - key
+      - name
+      - namespaceKey
+      - updatedAt
+      type: object
+    VariantCreateRequest:
+      example:
+        attachment: attachment
+        name: name
+        description: description
+        key: key
+      properties:
+        key:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        attachment:
+          type: string
+      required:
+      - key
+      type: object
+    VariantUpdateRequest:
+      example:
+        attachment: attachment
+        name: name
+        description: description
+        key: key
+      properties:
+        key:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        attachment:
+          type: string
+      required:
+      - key
+      type: object
+    AuthMethodK8SService_verifyServiceAccount_request:
+      properties:
+        serviceAccountToken:
+          type: string
+      required:
+      - serviceAccountToken
+      type: object
+    AuthMethodTokenService_createToken_request:
+      properties:
+        name:
+          type: string
+        namespaceKey:
+          type: string
+        description:
+          type: string
+        expiresAt:
+          format: date-time
+          type: string
+      required:
+      - description
+      - name
+      type: object
+    AuthService_expireSelf_request:
+      properties:
+        expiresAt:
+          format: date-time
+          type: string
+      type: object
+  securitySchemes:
+    BearerAuth:
+      scheme: bearer
+      type: http
+
